@@ -1,0 +1,51 @@
+@{
+    ViewData["Title"] = "Gestion de la queue Azure";
+}
+
+<h2>Gestion de la queue Azure</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<form asp-controller="StorageQueues" asp-action="AddMessage" method="post">
+    <div class="form-group">
+        <label for="message">Message :</label>
+        <input type="text" id="message" name="message" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="date">Date :</label>
+        <input type="date" id="date" name="date" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="quantity">Quantité :</label>
+        <input type="number" id="quantity" name="quantity" class="form-control" min="1" required />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Envoyer</button>
+</form>
+
+<h3>Messages dans la queue</h3>
+<ul class="list-group">
+    @if (ViewBag.Messages != null && ViewBag.Messages.Count > 0)
+    {
+        foreach (var message in ViewBag.Messages)
+        {
+            <li class="list-group-item">@message</li>
+        }
+    }
+    else
+    {
+        <li class="list-group-item">Aucun message dans la queue.</li>
+    }
+</ul>
+
+<form asp-controller="StorageQueues" asp-action="ProcessMessage" method="post" class="mt-3">
+    <button type="submit" class="btn btn-success">Traiter un message</button>
+</form>
+
+@if (ViewBag.ProcessedMessage != null)
+{
+    <h3 class="mt-3">Message traité :</h3>
+    <p><strong>@ViewBag.ProcessedMessage</strong></p>
+}

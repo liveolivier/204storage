@@ -1,0 +1,37 @@
+@model IEnumerable<demo204.Controllers.Stagiaire>
+
+@{
+    ViewData["Title"] = "Liste des stagiaires";
+}
+
+<h2>Liste des stagiaires</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Poste</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var stagiaire in Model)
+        {
+            <tr>
+                <td>@stagiaire.Nom</td>
+                <td>@stagiaire.Prenom</td>
+                <td>@stagiaire.Poste</td>
+                <td style="display:none;">@stagiaire.PartitionKey</td>
+                <td style="display:none;">@stagiaire.RowKey</td>
+                <td>
+                    <a asp-controller="StorageTable" asp-action="Delete" asp-route-partitionKey="@stagiaire.PartitionKey"
+                        asp-route-rowKey="@stagiaire.RowKey" class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="StorageTable" asp-action="Create" class="btn btn-primary">Ajouter un stagiaire</a>

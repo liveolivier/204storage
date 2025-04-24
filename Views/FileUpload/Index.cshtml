@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "Téléchargement de fichier";
+}
+
+<script>
+    function HideMessage() {
+        document.getElementById('message').style.display = 'none';
+        document.getElementById('chemin').style.display = 'none';
+    }
+</script>
+
+<h2>Télécharger un fichier</h2>
+
+<form asp-controller="FileUpload" asp-action="Upload" method="post" enctype="multipart/form-data">
+    <div>
+        <label for="file">Sélectionnez un fichier :</label>
+        <input type="file"
+               id="file"
+               name="file"
+               onchange="HideMessage();" />
+      
+
+    </div>
+    <button type="submit">Télécharger</button>
+</form>
+
+@if (ViewBag.Message != null)
+{
+    <p id="message">@ViewBag.Message</p>
+}
+
+@if (ViewBag.FileUrl != null)
+{
+    <p id="chemin">URL du fichier : <a href="@ViewBag.FileUrl" target="_blank">@ViewBag.FileUrl</a></p>
+}
+
+
+@if (ViewBag.Bloblist != null)
+{
+    <h3>Fichiers téléchargés :</h3>
+    <ul>
+        @foreach (var fileUrl in ViewBag.Bloblist)
+        {
+            <li><a href="@fileUrl" target="_blank">@fileUrl</a></li>
+        }
+    </ul>
+}
